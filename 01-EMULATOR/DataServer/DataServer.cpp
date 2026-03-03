@@ -34,7 +34,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 
 	char buff[256];
 
-	wsprintf(buff, DATASERVER_VERSION, "EM ESPERA");
+	wsprintf(buff, "ZTeam - DataServer (EM ESPERA)");
 
 	SetWindowText(hWnd,buff);
 
@@ -159,9 +159,6 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) // 
 		case WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
-				/*case IDM_ABOUT:
-					DialogBox(hInst,(LPCTSTR)IDD_ABOUTBOX,hWnd,(DLGPROC)About);
-					break;*/
 				case IDM_EXIT:
 					if(CheckServersOpened() != 0)
 					{

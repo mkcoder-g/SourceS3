@@ -1,2 +1,7 @@
 03-BUILD/
 04-RELEASE/
+.vs/
+.git/
+01-EMULATOR\ConnectServer\LOG\
+01-EMULATOR\DataServer\LOG\
+01-EMULATOR\JoinServer\LOG\

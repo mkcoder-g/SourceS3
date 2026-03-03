@@ -36,8 +36,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 
 	char buff[256];
 
-	wsprintf(buff, CONNECTSERVER_VERSION, "EM ESPERA");
-		
+	wsprintf(buff,"ZTeam - ConnectServer (EM ESPERA)");
+
 	SetWindowText(hWnd,buff);
 
 	gServerDisplayer.Init(hWnd);

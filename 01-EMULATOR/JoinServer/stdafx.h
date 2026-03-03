@@ -4,7 +4,7 @@
 
 #define _WIN32_WINNT _WIN32_WINNT_WINXP
 
-#define JOINSERVER_VERSION "ZTeam - JoinServer - [%s]"
+//#define JOINSERVER_VERSION "JoinServer (EX%03d) [%s]"
 
 // System Include
 #include <windows.h>

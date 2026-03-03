@@ -36,7 +36,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 
 	char buff[256];
 
-	wsprintf(buff, JOINSERVER_VERSION, "EM ESPERA");
+	wsprintf(buff, "ZTeam - JoinServer (EM ESPERA)");
 
 	SetWindowText(hWnd,buff);
 
@@ -72,7 +72,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 
 		if(gQueryManager.Connect(JoinServerODBC,JoinServerUSER,JoinServerPASS) == 0)
 		{
-			LogAdd(LOG_RED,"Não foi possível conectar ao banco de dados");
+			LogAdd(LOG_RED,"Could not connect to database");
 		}
 		else
 		{
@@ -176,17 +176,14 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) // 
 		case WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
-				/*case IDM_ABOUT:
-					DialogBox(hInst,(LPCTSTR)IDD_ABOUTBOX,hWnd,(DLGPROC)About);
-					break;*/
 				case IDM_EXIT:
 					if(CheckServersOpened() != 0)
 					{
-						MessageBox(hWnd,"	Não é possível fechar o JoinServer com o GameServer aberto. Feche todos os GameServers primeiro!", "Perigo de perda de dados!", MB_OK | MB_ICONEXCLAMATION);
+						MessageBox(hWnd,"Can not close JoinServer with opened GameServer, close all GameServers first!", "Danger of data loss!", MB_OK | MB_ICONEXCLAMATION);
 						break;
 					}
 
-					if(MessageBox(hWnd,"Tem certeza de que deseja encerrar o JoinServer?","	Solicitar encerramento do servidor",MB_YESNO | MB_ICONQUESTION) == IDYES)
+					if(MessageBox(hWnd,"Are you sure to terminate JoinServer?","Ask terminate server",MB_YESNO | MB_ICONQUESTION) == IDYES)
 					{
 						DestroyWindow(hWnd);
 					}
@@ -212,11 +209,11 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) // 
 		case WM_CLOSE:
 			if(CheckServersOpened() != 0)
 			{
-				MessageBox(hWnd,"	Não é possível fechar o JoinServer com o GameServer aberto. Feche todos os GameServers primeiro!", "Perigo de perda de dados!", MB_OK | MB_ICONEXCLAMATION);
+				MessageBox(hWnd,"Can not close JoinServer with opened GameServer, close all GameServers first!", "Danger of data loss!", MB_OK | MB_ICONEXCLAMATION);
 				break;
 			}
 
-			if(MessageBox(hWnd, "Tem certeza de que deseja encerrar o JoinServer?", "Solicitar encerramento do servidor", MB_YESNO | MB_ICONQUESTION) == IDYES)
+			if(MessageBox(hWnd, "Are you sure to terminate JoinServer?", "Ask terminate server", MB_YESNO | MB_ICONQUESTION) == IDYES)
 			{
 				DestroyWindow(hWnd);
 			}

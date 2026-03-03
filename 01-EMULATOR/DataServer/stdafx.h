@@ -4,7 +4,7 @@
 
 #define _WIN32_WINNT _WIN32_WINNT_WINXP
 
-#define DATASERVER_VERSION "ZTeam - DataServer - [%s]"
+//#define DATASERVER_VERSION "DataServer (EX%03d) [%s]"
 
 // System Include
 #include <windows.h>

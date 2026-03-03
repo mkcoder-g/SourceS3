@@ -51,7 +51,7 @@ void CServerDisplayer::SetWindowName() // OK
 {
 	char buff[256];
 
-	wsprintf(buff,CONNECTSERVER_VERSION,CONNECTSERVER_UPDATE,(gServerList.CheckJoinServerState()==0)?"EM ESPERA":"ONLINE");
+	wsprintf(buff,(gServerList.CheckJoinServerState()==0)?"ZTeam - ConnectServer (EM ESPERA)":"ZTeam - ConnectServer (ONLINE)");
 
 	SetWindowText(this->m_hwnd,buff);
 }

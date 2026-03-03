@@ -61,7 +61,7 @@ void CServerDisplayer::SetWindowName() // OK
 
 	char buff[256];
 
-	wsprintf(buff,DATASERVER_VERSION,DATASERVER_UPDATE,(state == 0)?"EM ESPERA":"ONLINE");
+	wsprintf(buff,(state == 0)? "ZTeam - DataServer (EM ESPERA)" : "ZTeam - DataServer (ONLINE)");
 
 	SetWindowText(this->m_hwnd,buff);
 }

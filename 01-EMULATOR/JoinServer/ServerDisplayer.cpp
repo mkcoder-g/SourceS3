@@ -65,7 +65,8 @@ void CServerDisplayer::SetWindowName() // OK
 
 	char buff[256];
 
-	wsprintf(buff,JOINSERVER_VERSION,JOINSERVER_UPDATE,(state == 0)?"EM ESPERAA":"ONLINE");
+	wsprintf(buff,(state == 0)?"ZTeam - JoinServer (EM ESPERA)" : "ZTeam - JoinServer (ONLINE)");
+
 
 	SetWindowText(this->m_hwnd,buff);
 }
