@@ -1,82 +1,67 @@
-# SourceS3 (MU Online Season 3) — by Mayck (mgalhardocoder-cmyk)
+# SourceS3 — MU Online Season 3
 
-Coleção de sources/ferramentas para **MU Online Season 3**, focada em:
-- **Servidor/Emulador**
-- **Assets/Mídias** (quando aplicável)
-- **Utilitários** (tools de suporte)
+Repositório com base de **Season 3** para MU Online, organizado em módulos (emulador, mídias e utilitários) e uma solution principal para compilar no Visual Studio.
 
-Repositório: https://github.com/mkcoder-g/SourceS3
+**Repo:** https://github.com/mkcoder-g/SourceS3
 
 ---
 
-## Estrutura
+## Estrutura do projeto
 
-- `01-EMULATOR/` — núcleo do servidor/emulador (lógica, sistemas e correções) :contentReference[oaicite:3]{index=3}  
-- `02-MEDIA/` — mídias/recursos do projeto (assets, materiais de apoio) :contentReference[oaicite:4]{index=4}  
-- `05-UTIL/` — utilitários e ferramentas auxiliares :contentReference[oaicite:5]{index=5}  
-- `SEASON3.sln` — solution principal do projeto :contentReference[oaicite:6]{index=6}  
-
----
-
-## O que tem aqui (resumo “de dono”)
-
-Este projeto serve como base para **customizar e evoluir** um ambiente Season 3, com foco em estabilidade, sistemas e melhorias.
-
-Pelo changelog, os pacotes mais recorrentes são:
-- Ajustes/correções de estabilidade (crash, desconexões, compatibilidade) :contentReference[oaicite:7]{index=7}  
-- Atualizações e integrações de **LUA** e sistemas relacionados :contentReference[oaicite:8]{index=8}  
-- Melhorias em sistemas/eventos e configurações (ex.:​:contentReference[oaicite:9]{index=9}ntryLevel.dat`, etc.) :contentReference[oaicite:10]{index=10}  
-
-> A ideia é :contentReference[oaicite:11]{index=11} pra ir plugando seus módulos e customizações sem reinventar tudo.
+- `01-EMULATOR/` — servidor/emulador (core e sistemas)
+- `02-MEDIA/` — mídias/recursos auxiliares
+- `05-UTIL/` — ferramentas e utilitários
+- `SEASON3.sln` — solution principal
 
 ---
 
-## Requisitos (Windows)
+## O que tem (resumo)
 
-- Window:contentReference[oaicite:12]{index=12}l Studio (recomendado: **VS 2017/2019/2022** com toolset de C++)
-- Windows SDK instalado
+Pelos updates do `CHANGELOG.txt`, o projeto reúne principalmente:
 
-### Se o projeto tiver recursos MFC/RC (erro `afxres.h`)
-Se aparecer **RC1015 cannot open include file 'afxres.h'** no `.rc`, quase sempre é:
-- faltando o **C++ MFC/ATL** no Visual Studio, ou
-- include path do Windows SDK/VC não configurado corretamente
-
-Checklist rápido:
-1. Visual Studio Installer → Modificar → **Desktop development with C++**
-2. Marcar também:
-   - **MFC/ATL** (C++ MFC for latest v143/v142)
-   - **Windows 10/11 SDK**
-3. Reabrir a solution e recompilar.
-
-> Isso resolve o clássico “Main.rc não abre/compila” com `afxres.h`.
+- Correções de estabilidade (crash/desconexões/compatibilidade)
+- Integrações/atualizações relacionadas a **LUA**
+- Ajustes de configs e sistemas/eventos (ex.: `SkillEnabler.txt`, `EventEntryLevel.dat`, melhorias gerais)
 
 ---
 
-## Como compilar
+## Como compilar (Windows / Visual Studio)
 
-1. Abra `SEASON3.sln` :contentReference[oaicite:13]{index=13}  
+1. Abra `SEASON3.sln`
 2. Selecione `Release` ou `Debug`
-3. Selecione a plataforma (Win32/x64 conforme o projeto)
-4. Build na solution ou no projeto que você quer
-
-Dica: se vier muito erro de include/lib, vale conferir:
-- **Toolset** do projeto (v141/v142/v143)
-- Windows SDK selecionado nas propriedades
-- Dependências (libs/dlls) se existirem no projeto
+3. Selecione a plataforma (Win32/x64 conforme existir)
+4. Compile o projeto desejado
 
 ---
 
-## Changelog / Atualizações
+## Problema comum: RC1015 / afxres.h
 
-O histórico completo está no `CHANGELOG.txt`.  
-Destaques dos últimos updates listados:
-- Update 39 (2.0.4-1): fixes de crash e ajustes relacionados a LUA/plugin :contentReference[oaicite:14]{index=14}  
-- Update 38 (2.0.4): correções de desconexão/compatibilidade + atualização LUA 5.3.1 :contentReference[oaicite:15]{index=15}  
-- Update 37 (2.0.3): configs/eventos e melhorias de performance/client:contentReference[oaicite:16]{index=16}:contentReference[oaicite:17]{index=17}  
+Se aparecer o erro:
+
+- `RC1015 cannot open include file 'afxres.h'`
+
+Normalmente é falta do componente do Visual Studio:
+
+1. Visual Studio Installer → **Modify**
+2. Marque:
+   - **Desktop development with C++**
+   - **MFC/ATL**
+   - **Windows 10/11 SDK**
+3. Reabra a solution e compile novamente
 
 ---
 
-## License
+## Changelog
 
-MIT License. :contentReference[oaicite:18]{index=18}  
-Copyright (c) 2026
+Confira o arquivo `CHANGELOG.txt` para a lista completa de alterações.
+
+### Destaques recentes
+- Update 39 (2.0.4-1): fixes de crash e ajustes relacionados a LUA/plugin
+- Update 38 (2.0.4): correções de desconexão/compatibilidade + atualização LUA 5.3.1
+- Update 37 (2.0.3): configs/eventos e melhorias gerais (inclui performance)
+
+---
+
+## Licença
+
+MIT
