@@ -46,6 +46,7 @@ enum eCommandNumber
 	COMMAND_CUSTOM_PICK = 63,
 	COMMAND_CUSTOM_PICK_SET = 64,
 	COMMAND_CUSTOM_PICK_CLEAR = 65,
+	COMMAND_AUTO_ADD = 66, // NOVO: /autoadd
 	COMMAND_GM_MOVE = 100,
 	COMMAND_GM_POST = 101,
 	COMMAND_TRACK = 102,
@@ -217,6 +218,7 @@ public:
 	void CommandPost(LPOBJ lpObj,char* arg);
 	void CommandAddPoint(LPOBJ lpObj,char* arg,int type);
 	void CommandAddPointAuto(LPOBJ lpObj,char* arg,int type);
+	void CommandAutoAdd(LPOBJ lpObj, char* arg); // NOVO: /autoadd
 	void CommandPKClear(LPOBJ lpObj,char* syntax);
 	void CommandMoney(LPOBJ lpObj,char* arg);
 	void CommandChange(LPOBJ lpObj);

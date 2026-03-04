@@ -1,4 +1,4 @@
-// CommandManager.cpp: implementation of the CCommandManager class.
+﻿// CommandManager.cpp: implementation of the CCommandManager class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -158,6 +158,7 @@ void CCommandManager::MainProc() // OK
 		}
 	}
 }
+
 
 long CCommandManager::GetNumber(char* arg,int pos) // OK
 {
@@ -351,6 +352,9 @@ void CCommandManager::ManagementCore(LPOBJ lpObj,char* message) // OK
 			break;
 		case COMMAND_ADD_POINT5:
 			this->CommandAddPoint(lpObj,argument,4);
+			break;
+		case COMMAND_AUTO_ADD:
+			this->CommandAutoAdd(lpObj, argument);
 			break;
 		case COMMAND_PK_CLEAR:
 			this->CommandPKClear(lpObj,lpInfo.Command);
@@ -693,7 +697,7 @@ void CCommandManager::CommandAddPoint(LPOBJ lpObj,char* arg,int type) // OK
 		return;
 	}
 
-	char mode[5] = {0};
+	/*char mode[5] = {0};
 
 	this->GetString(arg,mode,sizeof(mode),0);
 
@@ -701,7 +705,7 @@ void CCommandManager::CommandAddPoint(LPOBJ lpObj,char* arg,int type) // OK
 	{
 		this->CommandAddPointAuto(lpObj,arg,type);
 		return;
-	}
+	}*/
 
 	int amount = this->GetNumber(arg,0);
 
@@ -2195,6 +2199,114 @@ void CCommandManager::CommandSetBuff(LPOBJ lpObj,char* arg) // OK
 
 	this->DiscountRequirement(lpObj,COMMAND_SET_BUFF);
 }
+void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
+{
+	// /autoadd off -> desliga (COM mensagem)
+	char mode[10] = { 0 };
+	this->GetString(arg, mode, sizeof(mode), 0);
+
+	if (_stricmp(mode, "off") == 0 || _stricmp(mode, "0") == 0)
+	{
+		lpObj->AutoAddPointCount = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			lpObj->AutoAddPointStats[i] = 0;
+		}
+
+		// ✅ SPAN DESLIGADO
+		gNotice.GCNoticeSend(lpObj->Index, 1, 0, 0, 0, 0, 0, "Comando [AutoAdd] desativado!");
+		return;
+	}
+
+	// cap = min(65000, MaxStatPoint da account)
+	int maxStat = gServerInfo.m_MaxStatPoint[lpObj->AccountLevel];
+	int cap = (maxStat < 65000) ? maxStat : 65000;
+
+	// zera
+	lpObj->AutoAddPointCount = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		lpObj->AutoAddPointStats[i] = 0;
+	}
+
+	// define "quanto falta" (alvo), a prioridade real é no Proc (order[])
+	switch (lpObj->Class)
+	{
+		// BK/DK: STR > DEX > VIT > ENE
+	case CLASS_DK:
+		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
+		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
+		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
+		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
+		break;
+
+		// DW/SM: ENE > VIT > DEX > STR (STR/DEX sobem, mas NÃO são prioridade)
+	case CLASS_DW:
+		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
+		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
+		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
+		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
+		break;
+
+		// ELF: DEX > VIT > ENE > STR (STR sobe, mas NÃO é prioridade)
+	case CLASS_FE:
+		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
+		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
+		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
+		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
+		break;
+
+		// MG: ENE > STR > DEX > VIT
+	case CLASS_MG:
+		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
+		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
+		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
+		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
+		break;
+
+		// DL: CMD > STR > DEX > VIT > ENE
+	case CLASS_DL:
+		lpObj->AutoAddPointStats[4] = cap - lpObj->Leadership; // CMD
+		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
+		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
+		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
+		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
+		break;
+	}
+
+	// não deixar negativo
+	for (int i = 0; i < 5; i++)
+	{
+		if (lpObj->AutoAddPointStats[i] < 0)
+		{
+			lpObj->AutoAddPointStats[i] = 0;
+		}
+	}
+
+	// count
+	lpObj->AutoAddPointCount = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (lpObj->AutoAddPointStats[i] > 0)
+		{
+			lpObj->AutoAddPointCount++;
+		}
+	}
+
+	// Se não tiver nada pra fazer, ainda assim mostra ativado? -> NÃO (fica silencioso)
+	if (lpObj->AutoAddPointCount == 0)
+	{
+		// ✅ Se você quiser mostrar uma mensagem aqui também, me avisa.
+		return;
+	}
+
+	// ✅ SPAN ATIVADO
+	gNotice.GCNoticeSend(lpObj->Index, 1, 0, 0, 0, 0, 0, "Comando [AutoAdd] ativado ate %d!", cap);
+
+	gLog.Output(LOG_COMMAND, "Comando [AutoAdd] [%s][%s] - (Cap: %d Class: %d)",
+		lpObj->Account, lpObj->Name, cap, lpObj->Class);
+}
 
 void CCommandManager::CommandAddPointAutoProc(LPOBJ lpObj) // OK
 {
@@ -2203,51 +2315,118 @@ void CCommandManager::CommandAddPointAutoProc(LPOBJ lpObj) // OK
 		return;
 	}
 
-	int AddStatCount = lpObj->AutoAddPointCount;
-
-	int* stat[5] = { &lpObj->Strength,&lpObj->Dexterity,&lpObj->Vitality,&lpObj->Energy,&lpObj->Leadership };
-
-	for(int n = 0; n < 5; n++)
+	// ponteiros para os stats reais do personagem
+	int* statPtr[5] =
 	{
-		if(lpObj->AutoAddPointStats[n] > 0)
+		&lpObj->Strength,   // 0
+		&lpObj->Dexterity,  // 1
+		&lpObj->Vitality,   // 2
+		&lpObj->Energy,     // 3
+		&lpObj->Leadership  // 4
+	};
+
+	// ordem default: STR -> DEX -> VIT -> ENE -> CMD
+	int order[5] = { 0,1,2,3,4 };
+
+	// ordem por classe (prioridade REAL)
+	switch (lpObj->Class)
+	{
+	case CLASS_DW: // DW/SM: ENE -> VIT -> DEX -> STR
+	{
+		int tmp[5] = { 3,2,1,0,4 };
+		memcpy(order, tmp, sizeof(order));
+	}
+	break;
+
+	case CLASS_DK: // DK/BK
+	{
+		int tmp[5] = { 0,1,2,3,4 }; // STR -> DEX -> VIT -> EN
+		memcpy(order, tmp, sizeof(order));
+	}
+	break;
+
+	case CLASS_FE: // ELF: DEX -> VIT -> ENE -> STR
+	{
+		int tmp[5] = { 1,2,3,0,4 };
+		memcpy(order, tmp, sizeof(order));
+	}
+	break;
+
+	case CLASS_MG: // MG
+	{
+		int tmp[5] = { 3,0,1,2,4 }; // ENE -> STR -> DEX -> VIT
+		memcpy(order, tmp, sizeof(order));
+	}
+	break;
+
+	case CLASS_DL: // DL
+	{
+		int tmp[5] = { 4,0,1,2,3 }; // CMD -> STR -> DEX -> VIT -> ENE
+		memcpy(order, tmp, sizeof(order));
+	}
+	break;
+	}
+
+	// limite max do servidor por accountlevel
+	int maxStat = gServerInfo.m_MaxStatPoint[lpObj->AccountLevel];
+
+	// aplica em sequência seguindo a prioridade
+	for (int k = 0; k < 5; k++)
+	{
+		if (lpObj->LevelUpPoint <= 0)
 		{
-			if(AddStatCount == 0)
-			{
-				break;
-			}
+			break;
+		}
 
-			int AddStat = lpObj->LevelUpPoint/AddStatCount;
+		int n = order[k]; // stat index real na prioridade
 
-			AddStat = (((lpObj->LevelUpPoint%AddStatCount)>0) ? (AddStat+1) : AddStat);
+		if (lpObj->AutoAddPointStats[n] <= 0)
+		{
+			continue;
+		}
 
-			AddStat = ((AddStat>lpObj->AutoAddPointStats[n]) ? lpObj->AutoAddPointStats[n] : AddStat);
+		int canAdd = lpObj->LevelUpPoint;
 
-			AddStat = ((((*stat[n])+AddStat)>gServerInfo.m_MaxStatPoint[lpObj->AccountLevel]) ? (gServerInfo.m_MaxStatPoint[lpObj->AccountLevel] - (*stat[n])) : AddStat);
+		// não passa do "quanto falta"
+		if (canAdd > lpObj->AutoAddPointStats[n])
+		{
+			canAdd = lpObj->AutoAddPointStats[n];
+		}
 
-			AddStatCount--;
+		// não passa do maxStat do servidor
+		if ((*statPtr[n] + canAdd) > maxStat)
+		{
+			canAdd = (maxStat - (*statPtr[n]));
+		}
 
-			(*stat[n]) += AddStat;
+		if (canAdd <= 0)
+		{
+			lpObj->AutoAddPointStats[n] = 0;
+			continue;
+		}
 
-			lpObj->LevelUpPoint -= AddStat;
+		(*statPtr[n]) += canAdd;
+		lpObj->LevelUpPoint -= canAdd;
+		lpObj->AutoAddPointStats[n] -= canAdd;
 
-			lpObj->AutoAddPointStats[n] -= (((*stat[n]) >= gServerInfo.m_MaxStatPoint[lpObj->AccountLevel]) ? lpObj->AutoAddPointStats[n] : AddStat);
+		// se bateu o limite, zera o "restante"
+		if ((*statPtr[n]) >= maxStat)
+		{
+			lpObj->AutoAddPointStats[n] = 0;
+		}
+	}
 
-			lpObj->AutoAddPointCount = 0;
-
-			lpObj->AutoAddPointCount = ((lpObj->AutoAddPointStats[0]>0) ? (lpObj->AutoAddPointCount+1) : lpObj->AutoAddPointCount);
-
-			lpObj->AutoAddPointCount = ((lpObj->AutoAddPointStats[1]>0) ? (lpObj->AutoAddPointCount+1) : lpObj->AutoAddPointCount);
-
-			lpObj->AutoAddPointCount = ((lpObj->AutoAddPointStats[2]>0) ? (lpObj->AutoAddPointCount+1) : lpObj->AutoAddPointCount);
-
-			lpObj->AutoAddPointCount = ((lpObj->AutoAddPointStats[3]>0) ? (lpObj->AutoAddPointCount+1) : lpObj->AutoAddPointCount);
-
-			lpObj->AutoAddPointCount = ((lpObj->AutoAddPointStats[4]>0) ? (lpObj->AutoAddPointCount+1) : lpObj->AutoAddPointCount);
+	// recalcula contador
+	lpObj->AutoAddPointCount = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (lpObj->AutoAddPointStats[i] > 0)
+		{
+			lpObj->AutoAddPointCount++;
 		}
 	}
 
 	gObjectManager.CharacterCalcAttribute(lpObj->Index);
-
 	GCNewCharacterInfoSend(lpObj);
 }
 
