@@ -31,6 +31,7 @@
 #include "CustomMonsterKillCount.h"
 #include "CustomPick.h"
 #include "CustomStore.h"
+#include "QuizEvent.h"
 #include "CustomWing.h"
 #include "DamageTable.h"
 #include "DefaultClassFreebies.h"
@@ -227,6 +228,9 @@ void CServerInfo::ReadCustomInfo() // OK
 
 	gCustomStore.ReadCustomStoreInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
 
+	// Quiz Event (opcional)
+	gQuizEvent.ReadQuizEventInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
+
 	gCustomArena.Load(gPath.GetFullPath("Custom\\CustomArena.txt"));
 
 	gCustomAttack.Load(gPath.GetFullPath("Custom\\CustomAttack.txt"));
@@ -250,6 +254,9 @@ void CServerInfo::ReadCustomInfo() // OK
 	gCustomMonsterKillCount.Load(gPath.GetFullPath("Custom\\CustomMonsterKillCount.txt"));
 
 	gCustomPick.Load(gPath.GetFullPath("Custom\\CustomPick.txt"));
+
+	// Perguntas/Respostas do Quiz
+	gQuizEvent.Load(gPath.GetFullPath("Custom\\CustomQuizEvent.txt"));
 
 	gCustomWing.Load(gPath.GetFullPath("Custom\\CustomWing.txt"));
 }

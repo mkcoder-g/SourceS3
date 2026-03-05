@@ -18,6 +18,7 @@
 #include "DSProtocol.h"
 #include "GameMain.h"
 #include "GameMaster.h"
+#include "QuizEvent.h"
 #include "Guild.h"
 #include "GuildClass.h"
 #include "IllusionTemple.h"
@@ -355,6 +356,21 @@ void CCommandManager::ManagementCore(LPOBJ lpObj,char* message) // OK
 			break;
 		case COMMAND_AUTO_ADD:
 			this->CommandAutoAdd(lpObj, argument);
+			break;
+		case COMMAND_QUIZ_ANSWER:
+			this->CommandQuizAnswer(lpObj, argument);
+			break;
+		case COMMAND_QUIZ_START:
+			this->CommandQuizStart(lpObj);
+			break;
+		case COMMAND_QUIZ_STOP:
+			this->CommandQuizStop(lpObj);
+			break;
+		case COMMAND_QUIZ_NEXT:
+			this->CommandQuizNext(lpObj);
+			break;
+		case COMMAND_QUIZ_RANK:
+			this->CommandQuizRank(lpObj);
 			break;
 		case COMMAND_PK_CLEAR:
 			this->CommandPKClear(lpObj,lpInfo.Command);
@@ -2463,6 +2479,35 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 
 	gLog.Output(LOG_COMMAND, "Comando [AutoAdd] [%s][%s] - (Cap: %d Class: %d)",
 		lpObj->Account, lpObj->Name, cap, lpObj->Class);
+}
+
+// =====================================================================================
+// QUIZ EVENT
+// =====================================================================================
+
+void CCommandManager::CommandQuizAnswer(LPOBJ lpObj, char* arg)
+{
+	gQuizEvent.CommandAnswer(lpObj, arg);
+}
+
+void CCommandManager::CommandQuizStart(LPOBJ lpObj)
+{
+	gQuizEvent.CommandStart(lpObj);
+}
+
+void CCommandManager::CommandQuizStop(LPOBJ lpObj)
+{
+	gQuizEvent.CommandStop(lpObj);
+}
+
+void CCommandManager::CommandQuizNext(LPOBJ lpObj)
+{
+	gQuizEvent.CommandNext(lpObj);
+}
+
+void CCommandManager::CommandQuizRank(LPOBJ lpObj)
+{
+	gQuizEvent.CommandRank(lpObj);
 }
 
 void CCommandManager::CommandAddPointAutoProc(LPOBJ lpObj) // OK

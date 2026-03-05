@@ -47,6 +47,11 @@ enum eCommandNumber
 	COMMAND_CUSTOM_PICK_SET = 64,
 	COMMAND_CUSTOM_PICK_CLEAR = 65,
 	COMMAND_AUTO_ADD = 66, // NOVO: /autoadd
+	COMMAND_QUIZ_ANSWER = 67, // NOVO: /quiz <resposta>
+	COMMAND_QUIZ_START = 68, // NOVO GM: /quizstart
+	COMMAND_QUIZ_STOP = 69, // NOVO GM: /quizstop
+	COMMAND_QUIZ_NEXT = 70, // NOVO GM: /quiznext
+	COMMAND_QUIZ_RANK = 71, // NOVO: /quizrank
 	COMMAND_GM_MOVE = 100,
 	COMMAND_GM_POST = 101,
 	COMMAND_TRACK = 102,
@@ -221,6 +226,11 @@ public:
 	void CommandAddPoint(LPOBJ lpObj,char* arg,int type);
 	void CommandAddPointAuto(LPOBJ lpObj,char* arg,int type);
 	void CommandAutoAdd(LPOBJ lpObj, char* arg); // NOVO: /autoadd
+	void CommandQuizAnswer(LPOBJ lpObj, char* arg); // NOVO: /quiz <resposta>
+	void CommandQuizStart(LPOBJ lpObj); // NOVO: /quizstart
+	void CommandQuizStop(LPOBJ lpObj); // NOVO: /quizstop
+	void CommandQuizNext(LPOBJ lpObj); // NOVO: /quiznext
+	void CommandQuizRank(LPOBJ lpObj); // NOVO: /quizrank
 	void CommandPKClear(LPOBJ lpObj,char* syntax);
 	void CommandMoney(LPOBJ lpObj,char* arg);
 	void CommandChange(LPOBJ lpObj);

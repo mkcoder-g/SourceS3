@@ -59,6 +59,7 @@
 #include "MoveSummon.h"
 #include "MuCashShop.h"
 #include "Notice.h"
+#include "QuizEvent.h"
 #include "ObjectManager.h"
 #include "OnlineReward.h"
 #include "Party.h"
@@ -190,6 +191,9 @@ void gObjFirstProc() // OK
 	gEffectManager.MainProc();
 
 	gNotice.MainProc();
+
+	// Evento de QUIZ (perguntas/respostas)
+	gQuizEvent.MainProc();
 
 	gReconnect.MainProc();
 

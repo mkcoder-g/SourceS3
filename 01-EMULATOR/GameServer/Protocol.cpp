@@ -40,6 +40,7 @@
 #include "Move.h"
 #include "MuCashShop.h"
 #include "Notice.h"
+#include "QuizEvent.h"
 #include "NpcTalk.h"
 #include "ObjectManager.h"
 #include "Party.h"
@@ -622,6 +623,12 @@ void CGChatRecv(PMSG_CHAT_RECV* lpMsg,int aIndex) // OK
 	if(lpMsg->message[0] == '/')
 	{
 		gCommandManager.ManagementCore(lpObj,lpMsg->message);
+		return;
+	}
+
+	// QUIZ: responder sem comando (não envia pro chat quando consome)
+	if(gQuizEvent.TryAnswerFromChat(lpObj, lpMsg->message) != 0)
+	{
 		return;
 	}
 
