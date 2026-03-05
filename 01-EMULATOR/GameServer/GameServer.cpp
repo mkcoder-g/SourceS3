@@ -382,7 +382,49 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) // 
 				case IDM_FORCE_INVASION29:
 					gInvasionManager.ForceStart(29);
 					break;
-				case IDM_RELOAD_RELOADBLACKLIST:
+				
+				case IDM_RELOAD_RELOADALL:
+
+									Console(LOG_BLUE,"Reload All");
+
+									gServerInfo.ReadBlackListInfo();
+
+									gServerInfo.ReadCashShopInfo();
+
+									gServerInfo.ReadChaosMixInfo();
+
+									gServerInfo.ReadCharacterInfo();
+
+									gServerInfo.ReadCommandInfo();
+
+									gServerInfo.ReadCommonInfo();
+
+									gServerInfo.ReadCustomInfo();
+
+									gServerInfo.ReadEventInfo();
+
+									gServerInfo.ReadEventItemBagInfo();
+
+									gServerInfo.ReadHackInfo();
+
+									gServerInfo.ReadItemInfo();
+
+									gServerInfo.ReloadMonsterInfo();
+
+									gServerInfo.ReadMoveInfo();
+
+									gServerInfo.ReadQuestInfo();
+
+									gServerInfo.ReadShopInfo();
+
+									gServerInfo.ReadSkillInfo();
+
+									gServerInfo.ReadUtilInfo();
+
+									LogAdd(LOG_BLUE,"[ServerInfo] All reloaded successfully");
+
+									break;
+case IDM_RELOAD_RELOADBLACKLIST:
 					Console(LOG_BLUE,"Reload BlackList");
 					gServerInfo.ReadBlackListInfo();
 					LogAdd(LOG_BLUE,"[ServerInfo] BlackList reloaded successfully");
