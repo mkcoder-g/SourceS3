@@ -77,6 +77,8 @@ enum eCommandNumber
 	COMMAND_CC_START = 127,
 	COMMAND_IT_START = 128,
 	COMMAND_SET_BUFF = 129,
+	COMMAND_RELOAD = 130, // NOVO: /reload <tipo>
+	COMMAND_RELOAD_ALL = 131, // NOVO: /reloadall
 };
 
 //**********************************************//
@@ -260,7 +262,10 @@ public:
 	void CommandCCStart(LPOBJ lpObj);
 	void CommandITStart(LPOBJ lpObj);
 	void CommandSetBuff(LPOBJ lpObj,char* arg);
-	void CommandAddPointAutoProc(LPOBJ lpObj);
+	
+	void CommandReload(LPOBJ lpObj,char* arg);
+	void CommandReloadAll(LPOBJ lpObj,char* arg);
+void CommandAddPointAutoProc(LPOBJ lpObj);
 	void CommandResetAutoProc(LPOBJ lpObj);
 	void DGCommandResetRecv(SDHP_COMMAND_RESET_RECV* lpMsg);
 	void DGCommandMasterResetRecv(SDHP_COMMAND_MASTER_RESET_RECV* lpMsg);

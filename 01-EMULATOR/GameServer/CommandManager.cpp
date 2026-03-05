@@ -521,6 +521,12 @@ void CCommandManager::ManagementCore(LPOBJ lpObj,char* message) // OK
 		case COMMAND_SET_BUFF:
 			this->CommandSetBuff(lpObj,argument);
 			break;
+		case COMMAND_RELOAD:
+			this->CommandReload(lpObj,argument);
+			break;
+		case COMMAND_RELOAD_ALL:
+			this->CommandReloadAll(lpObj,argument);
+			break;
 	}
 }
 
@@ -2199,6 +2205,157 @@ void CCommandManager::CommandSetBuff(LPOBJ lpObj,char* arg) // OK
 
 	this->DiscountRequirement(lpObj,COMMAND_SET_BUFF);
 }
+
+void CCommandManager::CommandReload(LPOBJ lpObj,char* arg) // NOVO: /reload <tipo>
+{
+	char type[32] = {0};
+	this->GetString(arg,type,sizeof(type),0);
+
+	if(type[0] == 0)
+	{
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"Use: /reload <blacklist|cashshop|chaosmix|character|command|common|custom|event|eventitembag|hack|item|monster|move|quest|shop|skill|util>");
+		return;
+	}
+
+	// Cada opção aqui espelha os MENUITEM do seu GameServer.cpp (menu Reload)
+	if(_stricmp(type,"blacklist") == 0)
+	{
+		gServerInfo.ReadBlackListInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] BlackList recarregada com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] BlackList reloaded successfully");
+	}
+	else if(_stricmp(type,"cashshop") == 0)
+	{
+		gServerInfo.ReadCashShopInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] CashShop recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] CashShop reloaded successfully");
+	}
+	else if(_stricmp(type,"chaosmix") == 0)
+	{
+		gServerInfo.ReadChaosMixInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] ChaosMix recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] ChaosMix reloaded successfully");
+	}
+	else if(_stricmp(type,"character") == 0)
+	{
+		gServerInfo.ReadCharacterInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Character recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Character reloaded successfully");
+	}
+	else if(_stricmp(type,"command") == 0)
+	{
+		gServerInfo.ReadCommandInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Command recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Command reloaded successfully");
+	}
+	else if(_stricmp(type,"common") == 0)
+	{
+		gServerInfo.ReadCommonInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Common recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Common reloaded successfully");
+	}
+	else if(_stricmp(type,"custom") == 0)
+	{
+		gServerInfo.ReadCustomInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Custom recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Custom reloaded successfully");
+	}
+	else if(_stricmp(type,"event") == 0)
+	{
+		gServerInfo.ReadEventInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Event recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Event reloaded successfully");
+	}
+	else if(_stricmp(type,"eventitembag") == 0 || _stricmp(type,"eventitem") == 0)
+	{
+		gServerInfo.ReadEventItemBagInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] EventItemBag recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] EventItemBag reloaded successfully");
+	}
+	else if(_stricmp(type,"hack") == 0)
+	{
+		gServerInfo.ReadHackInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Hack recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Hack reloaded successfully");
+	}
+	else if(_stricmp(type,"item") == 0)
+	{
+		gServerInfo.ReadItemInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Item recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Item reloaded successfully");
+	}
+	else if(_stricmp(type,"monster") == 0)
+	{
+		gServerInfo.ReloadMonsterInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Monster recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Monster reloaded successfully");
+	}
+	else if(_stricmp(type,"move") == 0)
+	{
+		gServerInfo.ReadMoveInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Move recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Move reloaded successfully");
+	}
+	else if(_stricmp(type,"quest") == 0)
+	{
+		gServerInfo.ReadQuestInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Quest recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Quest reloaded successfully");
+	}
+	else if(_stricmp(type,"shop") == 0)
+	{
+		gServerInfo.ReadShopInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Shop recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Shop reloaded successfully");
+	}
+	else if(_stricmp(type,"skill") == 0)
+	{
+		gServerInfo.ReadSkillInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Skill recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Skill reloaded successfully");
+	}
+	else if(_stricmp(type,"util") == 0)
+	{
+		gServerInfo.ReadUtilInfo();
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Util recarregado com sucesso!");
+		LogAdd(LOG_BLUE,"[CommandReload] Util reloaded successfully");
+	}
+	else
+	{
+		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[Reload] Tipo invalido: %s",type);
+		return;
+	}
+
+	this->DiscountRequirement(lpObj,COMMAND_RELOAD);
+}
+
+void CCommandManager::CommandReloadAll(LPOBJ lpObj,char* arg) // NOVO: /reloadall
+{
+	// Carrega tudo (mesma ideia do menu reload)
+	gServerInfo.ReadBlackListInfo();
+	gServerInfo.ReadCashShopInfo();
+	gServerInfo.ReadChaosMixInfo();
+	gServerInfo.ReadCharacterInfo();
+	gServerInfo.ReadCommandInfo();
+	gServerInfo.ReadCommonInfo();
+	gServerInfo.ReadCustomInfo();
+	gServerInfo.ReadEventInfo();
+	gServerInfo.ReadEventItemBagInfo();
+	gServerInfo.ReadHackInfo();
+	gServerInfo.ReadItemInfo();
+	gServerInfo.ReloadMonsterInfo();
+	gServerInfo.ReadMoveInfo();
+	gServerInfo.ReadQuestInfo();
+	gServerInfo.ReadShopInfo();
+	gServerInfo.ReadSkillInfo();
+	gServerInfo.ReadUtilInfo();
+
+	gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,"[ReloadAll] Todas configuracoes foram recarregadas!");
+	LogAdd(LOG_BLUE,"[CommandReloadAll] All configs reloaded successfully");
+
+	this->DiscountRequirement(lpObj,COMMAND_RELOAD_ALL);
+}
+
 void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 {
 	// /autoadd off -> desliga (COM mensagem)
