@@ -52,6 +52,9 @@ enum eCommandNumber
 	COMMAND_QUIZ_STOP = 69, // NOVO GM: /quizstop
 	COMMAND_QUIZ_NEXT = 70, // NOVO GM: /quiznext
 	COMMAND_QUIZ_RANK = 71, // NOVO: /quizrank
+	COMMAND_TREASURE_START = 72, // NOVO GM: /treasurestart
+	COMMAND_TREASURE_INFO = 73,  // NOVO: /treasureinfo
+	COMMAND_TREASURE_END = 74, // NOVO GM: /treasureend
 	COMMAND_GM_MOVE = 100,
 	COMMAND_GM_POST = 101,
 	COMMAND_TRACK = 102,
@@ -231,6 +234,9 @@ public:
 	void CommandQuizStop(LPOBJ lpObj); // NOVO: /quizstop
 	void CommandQuizNext(LPOBJ lpObj); // NOVO: /quiznext
 	void CommandQuizRank(LPOBJ lpObj); // NOVO: /quizrank
+	void CommandTreasureStart(LPOBJ lpObj); // NOVO GM: /treasurestart
+	void CommandTreasureInfo(LPOBJ lpObj);  // NOVO: /treasureinfo
+	void CommandTreasureEnd(LPOBJ lpObj); // NOVO GM: /treasureend
 	void CommandPKClear(LPOBJ lpObj,char* syntax);
 	void CommandMoney(LPOBJ lpObj,char* arg);
 	void CommandChange(LPOBJ lpObj);

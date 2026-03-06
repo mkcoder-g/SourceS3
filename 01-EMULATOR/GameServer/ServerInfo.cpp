@@ -21,6 +21,7 @@
 #include "CustomBuyVip.h"
 #include "CustomComboSkill.h"
 #include "CustomEventDrop.h"
+#include "CustomTreasureHunt.h"
 #include "CustomGift.h"
 #include "CustomHealthBar.h"
 #include "CustomJewel.h"
@@ -216,6 +217,8 @@ void CServerInfo::ReadCustomInfo() // OK
 
 	gCustomEventDrop.ReadCustomEventDropInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
 
+	gCustomTreasureHunt.ReadCustomTreasureHuntInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
+
 	gCustomGift.ReadCustomGiftInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
 
 	gCustomJewelPack.ReadCustomJewelPackInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
@@ -238,6 +241,8 @@ void CServerInfo::ReadCustomInfo() // OK
 	gCustomBuyVip.Load(gPath.GetFullPath("Custom\\CustomBuyVip.txt"));
 
 	gCustomEventDrop.Load(gPath.GetFullPath("Custom\\CustomEventDrop.txt"));
+
+	gCustomTreasureHunt.Load(gPath.GetFullPath("Custom\\CustomTreasureHunt.txt"));
 
 	gCustomGift.Load(gPath.GetFullPath("Custom\\CustomGift.txt"));
 

@@ -21,6 +21,7 @@
 #include "CustomArena.h"
 #include "CustomAttack.h"
 #include "CustomEventDrop.h"
+#include "CustomTreasureHunt.h"
 #include "CustomLukeHelper.h"
 #include "CustomStore.h"
 #include "DarkSpirit.h"
@@ -119,6 +120,7 @@ void gObjEventRunProc() // OK
 	gCustomArena.MainProc();
 
 	gCustomEventDrop.MainProc();
+	gCustomTreasureHunt.MainProc();
 
 	gCustomLukeHelper.MainProc();
 

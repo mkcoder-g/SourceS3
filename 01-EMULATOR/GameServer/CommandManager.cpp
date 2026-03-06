@@ -1,4 +1,4 @@
-﻿// CommandManager.cpp: implementation of the CCommandManager class.
+// CommandManager.cpp: implementation of the CCommandManager class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -11,6 +11,7 @@
 #include "CustomBuyVip.h"
 #include "CustomGift.h"
 #include "CustomJewelPack.h"
+#include "CustomTreasureHunt.h"
 #include "CustomMarriage.h"
 #include "CustomPick.h"
 #include "CustomStore.h"
@@ -322,7 +323,12 @@ void CCommandManager::ManagementCore(LPOBJ lpObj,char* message) // OK
 		return;
 	}
 
-	switch(lpInfo.Index)
+	
+
+//============================================================
+// Treasure Hunt: /treasureend (encerra o evento)
+//============================================================
+switch(lpInfo.Index)
 	{
 		case COMMAND_MOVE:
 			this->CommandMove(lpObj,argument);
@@ -372,7 +378,16 @@ void CCommandManager::ManagementCore(LPOBJ lpObj,char* message) // OK
 		case COMMAND_QUIZ_RANK:
 			this->CommandQuizRank(lpObj);
 			break;
-		case COMMAND_PK_CLEAR:
+		case COMMAND_TREASURE_START:
+			this->CommandTreasureStart(lpObj);
+			break;
+		case COMMAND_TREASURE_INFO:
+			this->CommandTreasureInfo(lpObj);
+			break;
+		case COMMAND_TREASURE_END:
+			this->CommandTreasureEnd(lpObj);
+			break;
+case COMMAND_PK_CLEAR:
 			this->CommandPKClear(lpObj,lpInfo.Command);
 			break;
 		case COMMAND_MONEY:
@@ -2233,7 +2248,7 @@ void CCommandManager::CommandReload(LPOBJ lpObj,char* arg) // NOVO: /reload <tip
 		return;
 	}
 
-	// Cada opção aqui espelha os MENUITEM do seu GameServer.cpp (menu Reload)
+	// Cada opo aqui espelha os MENUITEM do seu GameServer.cpp (menu Reload)
 	if(_stricmp(type,"blacklist") == 0)
 	{
 		gServerInfo.ReadBlackListInfo();
@@ -2387,7 +2402,7 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 			lpObj->AutoAddPointStats[i] = 0;
 		}
 
-		// ✅ SPAN DESLIGADO
+		//  SPAN DESLIGADO
 		gNotice.GCNoticeSend(lpObj->Index, 1, 0, 0, 0, 0, 0, "Comando [AutoAdd] desativado!");
 		return;
 	}
@@ -2403,7 +2418,7 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 		lpObj->AutoAddPointStats[i] = 0;
 	}
 
-	// define "quanto falta" (alvo), a prioridade real é no Proc (order[])
+	// define "quanto falta" (alvo), a prioridade real  no Proc (order[])
 	switch (lpObj->Class)
 	{
 		// BK/DK: STR > DEX > VIT > ENE
@@ -2414,7 +2429,7 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
 		break;
 
-		// DW/SM: ENE > VIT > DEX > STR (STR/DEX sobem, mas NÃO são prioridade)
+		// DW/SM: ENE > VIT > DEX > STR (STR/DEX sobem, mas NO so prioridade)
 	case CLASS_DW:
 		lpObj->AutoAddPointStats[3] = cap - lpObj->Energy;     // ENE
 		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
@@ -2422,7 +2437,7 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 		lpObj->AutoAddPointStats[0] = cap - lpObj->Strength;   // STR
 		break;
 
-		// ELF: DEX > VIT > ENE > STR (STR sobe, mas NÃO é prioridade)
+		// ELF: DEX > VIT > ENE > STR (STR sobe, mas NO  prioridade)
 	case CLASS_FE:
 		lpObj->AutoAddPointStats[1] = cap - lpObj->Dexterity;  // DEX
 		lpObj->AutoAddPointStats[2] = cap - lpObj->Vitality;   // VIT
@@ -2448,7 +2463,7 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 		break;
 	}
 
-	// não deixar negativo
+	// no deixar negativo
 	for (int i = 0; i < 5; i++)
 	{
 		if (lpObj->AutoAddPointStats[i] < 0)
@@ -2467,14 +2482,14 @@ void CCommandManager::CommandAutoAdd(LPOBJ lpObj, char* arg)
 		}
 	}
 
-	// Se não tiver nada pra fazer, ainda assim mostra ativado? -> NÃO (fica silencioso)
+	// Se no tiver nada pra fazer, ainda assim mostra ativado? -> NO (fica silencioso)
 	if (lpObj->AutoAddPointCount == 0)
 	{
-		// ✅ Se você quiser mostrar uma mensagem aqui também, me avisa.
+		//  Se voc quiser mostrar uma mensagem aqui tambm, me avisa.
 		return;
 	}
 
-	// ✅ SPAN ATIVADO
+	//  SPAN ATIVADO
 	gNotice.GCNoticeSend(lpObj->Index, 1, 0, 0, 0, 0, 0, "Comando [AutoAdd] ativado ate %d!", cap);
 
 	gLog.Output(LOG_COMMAND, "Comando [AutoAdd] [%s][%s] - (Cap: %d Class: %d)",
@@ -2572,7 +2587,7 @@ void CCommandManager::CommandAddPointAutoProc(LPOBJ lpObj) // OK
 	// limite max do servidor por accountlevel
 	int maxStat = gServerInfo.m_MaxStatPoint[lpObj->AccountLevel];
 
-	// aplica em sequência seguindo a prioridade
+	// aplica em sequncia seguindo a prioridade
 	for (int k = 0; k < 5; k++)
 	{
 		if (lpObj->LevelUpPoint <= 0)
@@ -2589,13 +2604,13 @@ void CCommandManager::CommandAddPointAutoProc(LPOBJ lpObj) // OK
 
 		int canAdd = lpObj->LevelUpPoint;
 
-		// não passa do "quanto falta"
+		// no passa do "quanto falta"
 		if (canAdd > lpObj->AutoAddPointStats[n])
 		{
 			canAdd = lpObj->AutoAddPointStats[n];
 		}
 
-		// não passa do maxStat do servidor
+		// no passa do maxStat do servidor
 		if ((*statPtr[n] + canAdd) > maxStat)
 		{
 			canAdd = (maxStat - (*statPtr[n]));
@@ -3108,3 +3123,22 @@ void CCommandManager::DGCommandBanCharacterRecv(SDHP_COMMAND_BAN_CHARACTER_RECV*
 		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,gMessage.GetMessage(695));
 	}
 }
+//============================================================
+// Treasure Hunt Commands
+//============================================================
+
+void CCommandManager::CommandTreasureStart(LPOBJ lpObj) // OK
+{
+	gCustomTreasureHunt.CommandStart(lpObj);
+}
+
+void CCommandManager::CommandTreasureInfo(LPOBJ lpObj) // OK
+{
+	gCustomTreasureHunt.CommandInfo(lpObj);
+}
+
+void CCommandManager::CommandTreasureEnd(LPOBJ lpObj) // OK
+{
+	gCustomTreasureHunt.CommandEnd(lpObj);
+}
+

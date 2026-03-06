@@ -682,6 +682,7 @@
     <ClInclude Include="SkillEnabler.h">
       <Filter>Game\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="CustomTreasureHunt.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerDisplayer.cpp">
@@ -1283,6 +1284,9 @@
     </ClCompile>
     <ClCompile Include="SkillEnabler.cpp">
       <Filter>Game\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomTreasureHunt.cpp">
+      <Filter>Others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -264,6 +264,7 @@
     <ClInclude Include="CustomHealthBar.h" />
     <ClInclude Include="CustomJewelPack.h" />
     <ClInclude Include="CustomPick.h" />
+    <ClInclude Include="CustomTreasureHunt.h" />
     <ClInclude Include="QuizEvent.h" />
     <ClInclude Include="Friend.h" />
     <ClInclude Include="GoldenArcher.h" />
@@ -468,6 +469,7 @@
     <ClCompile Include="CustomHealthBar.cpp" />
     <ClCompile Include="CustomJewelPack.cpp" />
     <ClCompile Include="CustomPick.cpp" />
+    <ClCompile Include="CustomTreasureHunt.cpp" />
     <ClCompile Include="QuizEvent.cpp" />
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="GoldenArcher.cpp" />

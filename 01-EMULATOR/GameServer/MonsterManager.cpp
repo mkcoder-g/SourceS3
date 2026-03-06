@@ -14,6 +14,7 @@
 #include "CustomArena.h"
 #include "CustomEventDrop.h"
 #include "CustomLukeHelper.h"
+#include "CustomTreasureHunt.h"
 #include "DevilSquare.h"
 #include "DropEvent.h"
 #include "IllusionTemple.h"
@@ -382,6 +383,8 @@ void CMonsterManager::SetMonsterData() // OK
 	gCustomArena.Init();
 
 	gCustomEventDrop.Init();
+
+	gCustomTreasureHunt.Init();
 
 	gCustomLukeHelper.Init();
 
