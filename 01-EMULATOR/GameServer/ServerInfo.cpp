@@ -34,6 +34,7 @@
 #include "CustomStore.h"
 #include "QuizEvent.h"
 #include "CustomWing.h"
+#include "CustomWorldBoss.h"
 #include "DamageTable.h"
 #include "DefaultClassFreebies.h"
 #include "DefaultClassInfo.h"
@@ -233,6 +234,7 @@ void CServerInfo::ReadCustomInfo() // OK
 
 	// Quiz Event (opcional)
 	gQuizEvent.ReadQuizEventInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
+	gCustomWorldBoss.ReadCustomWorldBossInfo("GameServerInfo",".\\Data\\GameServerInfo - Custom.dat");
 
 	gCustomArena.Load(gPath.GetFullPath("Custom\\CustomArena.txt"));
 
@@ -262,6 +264,7 @@ void CServerInfo::ReadCustomInfo() // OK
 
 	// Perguntas/Respostas do Quiz
 	gQuizEvent.Load(gPath.GetFullPath("Custom\\CustomQuizEvent.txt"));
+	gCustomWorldBoss.Load(gPath.GetFullPath("Custom\\CustomWorldBoss.txt"));
 
 	gCustomWing.Load(gPath.GetFullPath("Custom\\CustomWing.txt"));
 }

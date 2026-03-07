@@ -266,6 +266,7 @@
     <ClInclude Include="CustomPick.h" />
     <ClInclude Include="CustomTreasureHunt.h" />
     <ClInclude Include="QuizEvent.h" />
+    <ClInclude Include="CustomWorldBoss.h" />
     <ClInclude Include="Friend.h" />
     <ClInclude Include="GoldenArcher.h" />
     <ClInclude Include="CustomEventDrop.h" />
@@ -471,6 +472,7 @@
     <ClCompile Include="CustomPick.cpp" />
     <ClCompile Include="CustomTreasureHunt.cpp" />
     <ClCompile Include="QuizEvent.cpp" />
+    <ClCompile Include="CustomWorldBoss.cpp" />
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="GoldenArcher.cpp" />
     <ClCompile Include="CustomEventDrop.cpp" />

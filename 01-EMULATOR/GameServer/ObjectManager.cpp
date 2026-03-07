@@ -22,6 +22,7 @@
 #include "CustomJewel.h"
 #include "CustomMonster.h"
 #include "CustomTreasureHunt.h"
+#include "CustomWorldBoss.h"
 #include "CustomPick.h"
 #include "CustomWing.h"
 #include "DarkSpirit.h"
@@ -3931,6 +3932,7 @@ void CObjectManager::CharacterLifeCheck(LPOBJ lpObj,LPOBJ lpTarget,int damage,in
 
 			gInvasionManager.MonsterDieProc(lpTarget,&gObj[SummonIndex]);
 			gCustomTreasureHunt.MonsterDieProc(lpTarget,&gObj[SummonIndex]);
+	gCustomWorldBoss.MonsterDieProc(lpTarget,&gObj[SummonIndex]);
 
 			if(BC_MAP_RANGE(lpTarget->Map) != 0)
 			{

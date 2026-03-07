@@ -55,6 +55,9 @@ enum eCommandNumber
 	COMMAND_TREASURE_START = 72, // NOVO GM: /treasurestart
 	COMMAND_TREASURE_INFO = 73,  // NOVO: /treasureinfo
 	COMMAND_TREASURE_END = 74, // NOVO GM: /treasureend
+	COMMAND_WORLD_BOSS_START = 75, // NOVO GM: /worldbossstart <index>
+	COMMAND_WORLD_BOSS_INFO = 76, // NOVO: /worldbossinfo [index]
+	COMMAND_WORLD_BOSS_END = 77, // NOVO GM: /worldbossend <index>
 	COMMAND_GM_MOVE = 100,
 	COMMAND_GM_POST = 101,
 	COMMAND_TRACK = 102,
@@ -237,6 +240,9 @@ public:
 	void CommandTreasureStart(LPOBJ lpObj); // NOVO GM: /treasurestart
 	void CommandTreasureInfo(LPOBJ lpObj);  // NOVO: /treasureinfo
 	void CommandTreasureEnd(LPOBJ lpObj); // NOVO GM: /treasureend
+	void CommandWorldBossStart(LPOBJ lpObj, char* arg); // NOVO GM: /worldbossstart <index>
+	void CommandWorldBossInfo(LPOBJ lpObj, char* arg); // NOVO: /worldbossinfo [index]
+	void CommandWorldBossEnd(LPOBJ lpObj, char* arg); // NOVO GM: /worldbossend <index>
 	void CommandPKClear(LPOBJ lpObj,char* syntax);
 	void CommandMoney(LPOBJ lpObj,char* arg);
 	void CommandChange(LPOBJ lpObj);

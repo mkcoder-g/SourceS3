@@ -457,6 +457,9 @@
     <ClInclude Include="QuizEvent.h">
       <Filter>Custom</Filter>
     </ClInclude>
+    <ClInclude Include="CustomWorldBoss.h">
+      <Filter>Custom</Filter>
+    </ClInclude>
     <ClInclude Include="CustomStore.h">
       <Filter>Custom</Filter>
     </ClInclude>
@@ -1064,6 +1067,9 @@
       <Filter>Custom</Filter>
     </ClCompile>
     <ClCompile Include="QuizEvent.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomWorldBoss.cpp">
       <Filter>Custom</Filter>
     </ClCompile>
     <ClCompile Include="CustomStore.cpp">

@@ -12,6 +12,7 @@
 #include "CustomGift.h"
 #include "CustomJewelPack.h"
 #include "CustomTreasureHunt.h"
+#include "CustomWorldBoss.h"
 #include "CustomMarriage.h"
 #include "CustomPick.h"
 #include "CustomStore.h"
@@ -386,6 +387,15 @@ switch(lpInfo.Index)
 			break;
 		case COMMAND_TREASURE_END:
 			this->CommandTreasureEnd(lpObj);
+			break;
+		case COMMAND_WORLD_BOSS_START:
+			this->CommandWorldBossStart(lpObj,argument);
+			break;
+		case COMMAND_WORLD_BOSS_INFO:
+			this->CommandWorldBossInfo(lpObj,argument);
+			break;
+		case COMMAND_WORLD_BOSS_END:
+			this->CommandWorldBossEnd(lpObj,argument);
 			break;
 case COMMAND_PK_CLEAR:
 			this->CommandPKClear(lpObj,lpInfo.Command);
@@ -3123,6 +3133,29 @@ void CCommandManager::DGCommandBanCharacterRecv(SDHP_COMMAND_BAN_CHARACTER_RECV*
 		gNotice.GCNoticeSend(lpObj->Index,1,0,0,0,0,0,gMessage.GetMessage(695));
 	}
 }
+
+void CCommandManager::CommandWorldBossStart(LPOBJ lpObj,char* arg)
+{
+	gCustomWorldBoss.CommandStart(lpObj,this->GetNumber(arg,0));
+}
+
+void CCommandManager::CommandWorldBossInfo(LPOBJ lpObj,char* arg)
+{
+	int eventIndex = -1;
+
+	if(strlen(arg) > 0)
+	{
+		eventIndex = this->GetNumber(arg,0);
+	}
+
+	gCustomWorldBoss.CommandInfo(lpObj,eventIndex);
+}
+
+void CCommandManager::CommandWorldBossEnd(LPOBJ lpObj,char* arg)
+{
+	gCustomWorldBoss.CommandEnd(lpObj,this->GetNumber(arg,0));
+}
+
 //============================================================
 // Treasure Hunt Commands
 //============================================================
